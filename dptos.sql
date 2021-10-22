@@ -10,6 +10,21 @@ sexta entidad: sueldo_empleado100
 septima entidad: sueldo_empleado 103
 */
 
+alter session set "_ORACLE_SCRIPT" = true;
+
+create tablespace empleados2 datafile '/opt/oracle/oradata/XE/empleados001.dbf' size 350M;
+
+create user recursos
+profile default identified by admin
+default tablespace empleados2
+temporary tablespace temp account unlock;
+
+GRANT CONNECT TO recursos;
+GRANT RESOURCE TO recursos;
+ALTER USER recursos QUOTA UNLIMITED on empleados2;
+
+conn recursos/admin;
+
 create table departamentos(
 codigo_depto number(6) not null,
 nombre_depto varchar2(30) not null,

@@ -1,0 +1,11 @@
+/*  MATAR SESIONES DE USUARIOS */
+SQL> SELECT a.USERNAME, a.SID, a.SERIAL#, b.SPID
+       FROM v$session a, v$process  b
+       WHERE  a.PADDR= b.ADDR
+       ORDER by 1;
+
+    ALTER SYSTEM KILL SESSION 'SID, SERIAL#';
+
+/*MATAR LA SESION LUEGO DE IDENTIFICARLA EN unix: */
+#kill -9 56061
+
