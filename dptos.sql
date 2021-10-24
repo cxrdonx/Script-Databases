@@ -10,6 +10,8 @@ sexta entidad: sueldo_empleado100
 septima entidad: sueldo_empleado 103
 */
 
+--https://jorgesanchez.net/manuales/sql/select-subconsultas-sql2016.html
+
 alter session set "_ORACLE_SCRIPT" = true;
 
 create tablespace empleados2 datafile '/opt/oracle/oradata/XE/empleados001.dbf' size 350M;
@@ -50,11 +52,16 @@ create table depto_trabajo(
     constraint pk_depto_trabajo primary key(codigo_dpto_trabajo)
 );
 
+insert into depto_trabajo values(1, )
+
 create table puestos(                                               /*la tabla puestos depende de la tabla sueldos y viceversa y esto no puede ser asi */
     codigo_puesto number(6) not null,
-    departamento varchar2(45) not null,
+    departamento number(6) not null,
     descripcion varchar2(45) not null,
+    sueldos number(6) not null,
     constraint pk_codigo_puesto primary key(codigo_puesto),
+    constraint fk_departamento_pt foreign key(departamento) references depto_trabajo(codigo_depto_trabajo),
+    constraint fk_sueldos foreign key(sueldos) references sueldos(codigo_sueldo)
 );
 
 create table sueldos(
@@ -95,6 +102,8 @@ create table empleados(
     constraint fk_municipio foreign key (municipio) references municipios(codigo_municipio)
              /*eliminar fecha de contrataciones y realizar su propia tabla ???*/
 );
+
+insert into empleados(id.nextval, 1, 221, 010, 101, 'Carlos Jose Rodas Archila', 2323154350101, 'cjrodas@gmail.com', '14 calle 15-30 zona 14', 22324455, 33446622 );
 
 create table contrataciones(
     codigo_contratacion number(6) not null,
@@ -160,7 +169,6 @@ create table historial_sueldo(
     constraint fk_descuentos_sueldo foreign key(otros_descuentos) references descuentos(codigo_descuento)
 );
 
- 
 
 insert into departamentos values(010,'Guatemala');
 insert into departamentos values(020,'El progreso');
@@ -353,10 +361,16 @@ insert into municipios values(0512, 050, 'San Vicente Pacaya');
 insert into municipios values(0513, 050, 'Nueva Concepción');
 
 
+insert into empleados values(90,1,1,221,444,10,101,'Carlos Jose Rodas Archila', 23231543501010, 'cjrodas@gmail.com', '14 calle 15-40', 22324455, 33446622);
 
 
+alter table contrataciones modify (fecha_fin number(6));
+alter table modify(fecha_inicio varchar2(15), fecha_fin varchar2(5));
+alter table escolaridad modify(año_culminacion varchar2(15));
 
 
+insert into contrataciones values(170,90,'3/1/2018', 'presente');
+insert into escolaridad values(9090, 'admin emp', 'maestria', '12/03/2012');
 
-
+insert into descuentos values(600, 'membresia gimnasio', 2020);
 
